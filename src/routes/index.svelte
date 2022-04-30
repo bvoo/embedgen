@@ -1,8 +1,31 @@
 <script lang="ts">
     let copyIcon = 'fal fa-copy';
-
+    
     let authorText, titleText, descriptionText, sidebarColor, imageUrl, redirectUrl, url = "";
-
+    
+    async function handleLoad() {
+        let urlParams = new URLSearchParams(window.location.search);
+        
+        authorText = urlParams.get('author');
+        titleText = urlParams.get('title');
+        descriptionText = urlParams.get('description');
+        sidebarColor = urlParams.get('sidebarColor');
+        imageUrl = urlParams.get('imageUrl');
+        redirectUrl = urlParams.get('redirectUrl');
+    }
+    
+    let waiting = 0
+    
+    const onload = el => {
+        waiting++
+        el.addEventListener('load', () => {
+            waiting--
+            if (waiting === 0) {
+                handleLoad()
+            }
+        })
+    }
+    
     async function generate() {
         console.log('swag');
         let embed_url = "https://{titleText}/";
@@ -37,14 +60,7 @@
         copyIcon = 'fal fa-check';
     }
 
-    let urlParams = new URLSearchParams(window.location.search);
-    
-    authorText = urlParams.get('author');
-    titleText = urlParams.get('title');
-    descriptionText = urlParams.get('description');
-    sidebarColor = urlParams.get('sidebarColor');
-    imageUrl = urlParams.get('imageUrl');
-    redirectUrl = urlParams.get('redirectUrl');
+
 </script>
 
 <svelte:head>
