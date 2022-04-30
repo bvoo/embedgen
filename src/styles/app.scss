@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Space+Mono&family=Roboto&display=swap');
+@import 'fontawesome.scss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold;
+  }
+}
+
+* {
+  transition: all 0.1s ease-in-out;
+}
+
+a {
+  @apply text-secondary;
+  text-decoration: none;
+
+  &:hover {
+    @apply text-primary;
+    // boing boing boing boing
+  }
+}
+
+html {
+  @apply bg-background text-primary;
+}
+
+input[type='text'] {
+  @apply bg-elevated;
+  border-radius: 8px;
+  height: 48px;
+  padding: 0 16px;
+}
+
+pre {
+  @apply bg-foreground text-primary;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+button {
+  @apply bg-elevated text-secondary;
+  border-radius: 8px;
+  height: 40px;
+  padding: 0 16px;
+}
+
+button:hover {
+  @apply text-primary;
+}
+
+.BAYZED {
+  background-color: aliceblue;
+}
+
+BAYZED {
+  background-color: crimson
+}
