@@ -1,17 +1,11 @@
 <script lang="ts">
     let copyIcon = 'fal fa-copy';
 
-    let authorText = "";
-    let titleText = "";
-    let descriptionText = "";
-    let sidebarColor = "";
-    let imageUrl = "";
-    let redirectUrl = ""; 
-    let url = "";
+    let authorText, titleText, descriptionText, sidebarColor, imageUrl, redirectUrl, url = "";
 
     async function generate() {
         console.log('swag');
-        let embed_url = "https://embed.bvoo.xyz/";
+        let embed_url = "https://{titleText}/";
 
         if (authorText != "") {
             embed_url += "?author=" + authorText;
@@ -42,80 +36,38 @@
         navigator.clipboard.writeText(resultString);
         copyIcon = 'fal fa-check';
     }
-    
-    async function handleLoad() {
-        console.log('swag')
-        let urlParams = new URLSearchParams(window.location.search);
-        authorText = urlParams.get('author');
-        titleText = urlParams.get('title');
-        descriptionText = urlParams.get('description');
-        sidebarColor = urlParams.get('sidebarColor');
-        imageUrl = urlParams.get('imageUrl');
-        redirectUrl = urlParams.get('redirectUrl');
-        
-        if (authorText) {
-            document.querySelector('meta[name="twitter:creator"]').setAttribute('content', authorText);
-            document.querySelector('meta[name="twitter:site"]').setAttribute('content', authorText);
-        }
-        if (titleText) {
-            document.querySelector('meta[property="og:site_name"]').setAttribute('content', titleText);
-            document.querySelector('meta[property="og:title"]').setAttribute('content', titleText);
-            document.querySelector('meta[name="twitter:title"]').setAttribute('content', titleText);
-            document.querySelector('title').innerHTML = titleText;
-        }
-        if (descriptionText) {
-            document.querySelector('meta[name="description"]').setAttribute('content', descriptionText);
-            document.querySelector('meta[name="twitter:description"]').setAttribute('content', descriptionText);
-            document.querySelector('meta[property="og:description"]').setAttribute('content', descriptionText);
-        }
-        if (sidebarColor) {
-            document.querySelector('meta[property="theme-color"]').setAttribute('content', imageUrl);
-        }
-        if (redirectUrl) {
-            document.querySelector('meta[property="og:url"]').setAttribute('content', redirectUrl);
-        }
-        if (imageUrl) {
-            document.querySelector('meta[name="og:image"]').setAttribute('content', imageUrl);
-            document.querySelector('meta[name="twitter:image"]').setAttribute('content', imageUrl);
-            document.querySelector('meta[name="twitter:card"]').setAttribute('content', imageUrl);
-        }
-    }
 
-    let waiting = 0
+    let urlParams = new URLSearchParams(window.location.search);
     
-    const onload = el => {
-        waiting++
-        el.addEventListener('load', () => {
-            waiting--
-            if (waiting === 0) {
-                handleLoad()
-            }
-        })
-    }
+    authorText = urlParams.get('author');
+    titleText = urlParams.get('title');
+    descriptionText = urlParams.get('description');
+    sidebarColor = urlParams.get('sidebarColor');
+    imageUrl = urlParams.get('imageUrl');
+    redirectUrl = urlParams.get('redirectUrl');
 </script>
 
 <svelte:head>
-    <title>embed.bvoo.xyz</title>
+    <title>{titleText}</title>
     <meta content='en_US' name='locale' />
-    <meta content='#2e2e2e' name='theme-color' />
-    <meta content='base64 encode/decode' name='description' />
-    <meta content='base64 encode/decode' property='og:description' />
-    <meta content='base64 encode/decode' name='twitter:description' />
+    <meta content='{sidebarColor}' name='theme-color' />
+    <meta content='{descriptionText}' name='description' />
+    <meta content='{descriptionText}' property='og:description' />
+    <meta content='{descriptionText}' name='twitter:description' />
   
-    <meta content='embed.bvoo.xyz' property='og:title' />
-    <meta content='embed.bvoo.xyz' name='twitter:title' />
-    <meta content='embed.bvoo.xyz' property='og:site_name' />
-    <meta content='/large-content.png' name='og:image' />
+    <meta content='{titleText}' property='og:title' />
+    <meta content='{titleText}' name='twitter:title' />
+    <meta content='{titleText}' property='og:site_name' />
+    <meta content='{imageUrl}' name='og:image' />
   
     <meta content='website' property='og:type' />
-    <meta content='https://embed.bvoo.xyz/' property='og:url' />
-    <meta content='/favicon.png' name='twitter:image' />
-    <meta content='summary_large_image' name='twitter:card' />
-    <meta content='@bvoowo' name='twitter:creator' />
-    <meta content='@bvoowo' name='twitter:site' />
+    <meta content='{redirectUrl}' property='og:url' />
+    <meta content='{imageUrl}' name='twitter:image' />
+    <meta content='{imageUrl}' name='twitter:card' />
+    <meta content='{authorText}' name='twitter:creator' />
+    <meta content='{authorText}' name='twitter:site' />
 </svelte:head>
 
-<svelte:window on:load="{() => handleLoad()}"/>
 <div class="h-[4em]" />
 <div class="flex flex-row nowrap justify-center align-middle text-center">
   <div class="flex flex-col justify-between w-1/2">
