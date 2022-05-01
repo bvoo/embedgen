@@ -12,7 +12,7 @@
 
     
     async function generate() {
-        let embed_url = "";
+        let embed_url = "?wicked=true";
 
         if (titleText != "") {
             titleText = encodeURIComponent(titleText);
