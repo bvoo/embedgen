@@ -1,57 +1,51 @@
 <script lang="ts">
+    export let params; 
+
+    console.log(params)
+
     let copyIcon = 'fal fa-copy';
     
-    let authorText, titleText, descriptionText, sidebarColor, imageUrl, redirectUrl, url = "";
-    
-    async function handleLoad() {
-        let urlParams = new URLSearchParams(window.location.search);
-        
-        authorText = urlParams.get('author');
-        titleText = urlParams.get('title');
-        descriptionText = urlParams.get('description');
-        sidebarColor = urlParams.get('sidebarColor');
-        imageUrl = urlParams.get('imageUrl');
-        redirectUrl = urlParams.get('redirectUrl');
-    }
-    
-    let waiting = 0
-    
-    const onload = el => {
-        waiting++
-        el.addEventListener('load', () => {
-            waiting--
-            if (waiting === 0) {
-                handleLoad()
-            }
-        })
-    }
+    let authorText = "";
+    let titleText = "";
+    let descriptionText = "";
+    let sidebarColor = "";
+    let imageUrl = "";
+    let redirectUrl = "";
+    let url = "";
     
     async function generate() {
-        console.log('swag');
-        let embed_url = "https://{titleText}/";
+        let embed_url = "";
 
         if (authorText != "") {
+            authorText = encodeURIComponent(authorText);
             embed_url += "?author=" + authorText;
         }
         if (titleText != "") {
+            titleText = encodeURIComponent(titleText);
             embed_url += "&title=" + titleText;
         }
         if (descriptionText != "") {
+            descriptionText = encodeURIComponent(descriptionText);
             embed_url += "&description=" + descriptionText;
         }
         if (sidebarColor != "") {
+            sidebarColor = encodeURIComponent(sidebarColor);
             embed_url += "&sidebarColor=" + sidebarColor;
         }
         if (imageUrl != "") {
+            imageUrl = encodeURIComponent(imageUrl);
             embed_url += "&imageUrl=" + imageUrl;
         }
         if (redirectUrl != "") {
+            redirectUrl = encodeURIComponent(redirectUrl);
             embed_url += "&redirectUrl=" + redirectUrl;
         }
 
+        embed_url = "https://embed.bvoo.xyz/" + embed_url;
+
         navigator.clipboard.writeText(embed_url);
         copyIcon = 'fal fa-copy';
-
+        
         url = embed_url;
     }
 
@@ -60,28 +54,42 @@
         copyIcon = 'fal fa-check';
     }
 
+</script>
 
+<script context="module">
+export async function load({ url }) {
+    let params = [];
+    for (const [key, value] of url.searchParams) {
+        params[key] = value;
+    }
+
+    return {
+        props: {
+            params: params
+        }
+    };
+}
 </script>
 
 <svelte:head>
-    <title>{titleText}</title>
+    <title>{params.title}</title>
     <meta content='en_US' name='locale' />
-    <meta content='{sidebarColor}' name='theme-color' />
-    <meta content='{descriptionText}' name='description' />
-    <meta content='{descriptionText}' property='og:description' />
-    <meta content='{descriptionText}' name='twitter:description' />
-  
-    <meta content='{titleText}' property='og:title' />
-    <meta content='{titleText}' name='twitter:title' />
-    <meta content='{titleText}' property='og:site_name' />
-    <meta content='{imageUrl}' name='og:image' />
-  
+    <meta content='{params.sidebarColor}' name='theme-color' />
+    <meta content='{params.description}' name='description' />
+    <meta content='{params.description}' property='og:description' />
+    <meta content='{params.description}' name='twitter:description' />
+
+    <meta content='{params.title}' property='og:title' />
+    <meta content='{params.title}' name='twitter:title' />
+    <meta content='{params.title}' property='og:site_name' />
+    <meta content='{params.imageUrl}' name='og:image' />
+
     <meta content='website' property='og:type' />
-    <meta content='{redirectUrl}' property='og:url' />
-    <meta content='{imageUrl}' name='twitter:image' />
-    <meta content='{imageUrl}' name='twitter:card' />
-    <meta content='{authorText}' name='twitter:creator' />
-    <meta content='{authorText}' name='twitter:site' />
+    <meta content='{params.redirectUrl}' property='og:url' />
+    <meta content='{params.imageUrl}' name='twitter:image' />
+    <meta content='{params.imageUrl}' name='twitter:card' />
+    <meta content='{params.author}' name='twitter:creator' />
+    <meta content='{params.author}' name='twitter:site' />
 </svelte:head>
 
 <div class="h-[4em]" />
